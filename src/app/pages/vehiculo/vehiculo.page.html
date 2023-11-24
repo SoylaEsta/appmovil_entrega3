@@ -1,0 +1,64 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Registrar Vehículo</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <form [formGroup]="vehicleForm" (ngSubmit)="onSubmit()">
+    <ion-item>
+      <ion-label position="floating">Marca del Vehículo</ion-label>
+      <ion-input formControlName="make" required></ion-input>
+    </ion-item>
+    <div *ngIf="vehicleForm.get('make')?.hasError('required')">
+      Marca del vehículo es requerida.
+    </div>
+    <div *ngIf="vehicleForm.get('make')?.hasError('maxlength')">
+      Máximo 50 caracteres permitidos.
+    </div>
+
+    <ion-item>
+      <ion-label position="floating">Modelo del Vehículo</ion-label>
+      <ion-input formControlName="model" required></ion-input>
+    </ion-item>
+    <div *ngIf="vehicleForm.get('model')?.hasError('required')">
+      Modelo del vehículo es requerido.
+    </div>
+
+    <ion-item>
+      <ion-label position="floating">Año del Vehículo</ion-label>
+      <ion-input type="number" formControlName="year" required></ion-input>
+    </ion-item>
+    <div *ngIf="vehicleForm.get('year')?.hasError('required')">
+      Año del vehículo es requerido.
+    </div>
+    <div *ngIf="vehicleForm.get('year')?.hasError('min')">
+      El año debe ser igual o mayor a 1900.
+    </div>
+
+
+  <!--API PROFESOR-->
+    <ion-item>
+      <ion-label>Región</ion-label>
+      <ion-select formControlName="region" (ionChange)="obtenerComunas()">
+        <ion-select-option *ngFor="let region of regions" [value]="region.id">{{ region.nombre }}</ion-select-option>
+      </ion-select>
+    </ion-item>
+    <div *ngIf="vehicleForm.get('region')?.hasError('required')">
+      Debes seleccionar una región.
+    </div>
+    
+    <ion-item>
+      <ion-label>Comuna</ion-label>
+      <ion-select formControlName="comuna">
+        <ion-select-option *ngFor="let comuna of comunas" [value]="comuna">{{ comuna }}</ion-select-option>
+      </ion-select>
+    </ion-item>
+    
+
+    <!--Botones-->
+    <ion-button expand="full" (click)="volverAlPrincipal()">Volver al Principal</ion-button>
+    <ion-button expand="full" color="primary" type="submit">Registrar</ion-button>
+
+  </form>
+</ion-content>
